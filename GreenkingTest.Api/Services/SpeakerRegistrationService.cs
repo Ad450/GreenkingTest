@@ -12,7 +12,8 @@ public class SpeakerRegistrationService(
     IEmployerChecker employerChecker,
     IDomainChecker domainChecker,
     ISessionTopicChecker sessionTopicChecker,
-    ISpeakerRepository speakerRepository
+    ISpeakerRepository speakerRepository,
+    ISpeakerFactory speakerFactory
     ) : ISpeakerRegistrationService
 
 {
@@ -29,7 +30,7 @@ public class SpeakerRegistrationService(
         if (!IsSessionApproved(speaker))
             return RegistrationResponse<string>.ErrorResponse("Session not Approved");
 
-        var approvedSpeaker = CreateSpeakerFromDto(speaker);
+        var approvedSpeaker = speakerFactory.CreateSpeakerFromDto(speaker);
         var speakerId = await speakerRepository.SaveSpeaker(approvedSpeaker);
 
         return RegistrationResponse<string>.SuccessResponse(speakerId);
@@ -64,38 +65,16 @@ public class SpeakerRegistrationService(
         return isAllowedDomain && isAllowedBrowser;
     }
     
+
+    
     private bool IsSessionApproved(SpeakerDto speaker)
     {
         var sessions = speaker.Sessions.Select(Session.CreateFromSessionDto).ToList();
         return sessionTopicChecker.IsAllowedTopic(sessions);
     }
     
-    private Speaker CreateSpeakerFromDto(SpeakerDto speaker)
-    {
-        return new Speaker
-        {
-            FirstName = speaker.FirstName,
-            LastName = speaker.LastName,
-            Blog = Blog.CreateFromDto(speaker.Blog),
-            Certifications = speaker.Certifications.Select(Certification.CreateFromDto).ToList(),
-            Experience = speaker.Experience,
-            RegistrationFee = GetRegistrationFee(speaker.Experience)
-        };
-    }
-    
-    private int GetRegistrationFee(int? yearsOfExperience)
-    {
-        var registrationFee = yearsOfExperience switch
-        {
-            <= 1 => 500,
-            >= 2 and <= 3 => 250,
-            >= 4 and <= 5 => 100,
-            >= 6 and <= 9 => 50,
-            _ => 0
-        };
-        return registrationFee;
-    }
 
+    
 
 }
 

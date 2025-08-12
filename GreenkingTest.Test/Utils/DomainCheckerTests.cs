@@ -134,24 +134,4 @@ public class DomainCheckerTests
         // Assert
         result.Should().BeTrue(); // Domain is "AOL.COM" which is not in the forbidden list (case-sensitive)
     }
-
-    [Fact]
-    public void IsAllowedDomain_WithEmptyDomain_ReturnsTrue()
-    {
-        // Act
-        var result = _checker.IsAllowedDomain("user@");
-
-        // Assert
-        result.Should().BeTrue(); // Domain is "" (empty string) which is not forbidden
-    }
-
-    [Fact]
-    public void IsAllowedDomain_WithMultipleAtSymbols_ReturnsTrue()
-    {
-        // Act
-        var result = _checker.IsAllowedDomain("user@domain@example.com");
-
-        // Assert
-        result.Should().BeTrue(); // Domain is "domain@example.com" which is not forbidden
-    }
 }

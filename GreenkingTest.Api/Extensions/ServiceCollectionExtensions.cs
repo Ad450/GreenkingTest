@@ -18,6 +18,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ISessionRepository, SessionRepository>();
         services.AddScoped<ISpeakerRepository, SpeakerRepository>();
         services.AddScoped<IValidator<SpeakerDto>, SpeakerValidator>();
+        services.AddScoped<ISpeakerFactory, SpeakerFactory>();
+        services.AddScoped<IRegistrationFeeHelper, RegistrationFeeHelper>();
         
         return services;
     }

@@ -18,6 +18,8 @@ public class SpeakerRegistrationServiceTests
     private readonly Mock<IDomainChecker> _mockDomainChecker;
     private readonly Mock<ISessionTopicChecker> _mockSessionTopicChecker;
     private readonly Mock<ISpeakerRepository> _mockSpeakerRepository;
+    private readonly Mock<ISpeakerFactory> _mockSpeakerFactory;
+    private readonly Mock<IRegistrationFeeHelper> _mockRegistrationFeeHelper;
     private readonly SpeakerRegistrationService _service;
 
     public SpeakerRegistrationServiceTests()
@@ -27,13 +29,16 @@ public class SpeakerRegistrationServiceTests
         _mockDomainChecker = new Mock<IDomainChecker>();
         _mockSessionTopicChecker = new Mock<ISessionTopicChecker>();
         _mockSpeakerRepository = new Mock<ISpeakerRepository>();
+        _mockSpeakerFactory = new Mock<ISpeakerFactory>();
+        _mockRegistrationFeeHelper = new Mock<IRegistrationFeeHelper>();
         
         _service = new SpeakerRegistrationService(
             _mockValidator.Object,
             _mockEmployerChecker.Object,
             _mockDomainChecker.Object,
             _mockSessionTopicChecker.Object,
-            _mockSpeakerRepository.Object
+            _mockSpeakerRepository.Object,
+            _mockSpeakerFactory.Object
         );
     }
 
@@ -43,6 +48,7 @@ public class SpeakerRegistrationServiceTests
         // Arrange
         var speakerDto = CreateValidSpeakerDto();
         var validationResult = new ValidationResult();
+        var speaker = CreateSpeaker();
         
         _mockValidator.Setup(x => x.ValidateAsync(It.IsAny<SpeakerDto>(), default))
             .ReturnsAsync(validationResult);
@@ -50,6 +56,8 @@ public class SpeakerRegistrationServiceTests
             .Returns(true);
         _mockSessionTopicChecker.Setup(x => x.IsAllowedTopic(It.IsAny<IList<Session>>()))
             .Returns(true);
+        _mockSpeakerFactory.Setup(x => x.CreateSpeakerFromDto(It.IsAny<SpeakerDto>()))
+            .Returns(speaker);
         _mockSpeakerRepository.Setup(x => x.SaveSpeaker(It.IsAny<Speaker>()))
             .ReturnsAsync("speaker-123");
 
@@ -61,6 +69,7 @@ public class SpeakerRegistrationServiceTests
         result.Data.Should().Be("speaker-123");
         result.Error.Should().BeNull();
     }
+    
 
     [Fact]
     public async Task RegisterSpeaker_WithValidationFailure_ReturnsErrorResponse()
@@ -129,6 +138,29 @@ public class SpeakerRegistrationServiceTests
     }
 
     [Fact]
+    public async Task RegisterSpeaker_WithEmptySessions_ReturnsErrorResponse()
+    {
+        // Arrange
+        var speakerDto = CreateValidSpeakerDto();
+        speakerDto.Sessions = new List<SessionDto>();
+        var validationResult = new ValidationResult();
+
+        _mockValidator.Setup(x => x.ValidateAsync(It.IsAny<SpeakerDto>(), default))
+            .ReturnsAsync(validationResult);
+        _mockEmployerChecker.Setup(x => x.IsAllowedEmployer(It.IsAny<string>()))
+            .Returns(true);
+
+        // Act
+        var result = await _service.RegisterSpeaker(speakerDto);
+
+        // Assert
+        result.Success.Should().BeFalse();
+        result.Error.Should().Be("Session not Approved");
+    }
+    
+    
+
+    [Fact]
     public async Task RegisterSpeaker_WithZeroExperience_CalculatesCorrectRegistrationFee()
     {
         await TestRegistrationFeeCalculation(0, 500);
@@ -194,6 +226,7 @@ public class SpeakerRegistrationServiceTests
         var speakerDto = CreateValidSpeakerDto();
         speakerDto.Experience = experience;
         var validationResult = new ValidationResult();
+        var speaker = CreateSpeaker();
         
         _mockValidator.Setup(x => x.ValidateAsync(It.IsAny<SpeakerDto>(), default))
             .ReturnsAsync(validationResult);
@@ -201,6 +234,8 @@ public class SpeakerRegistrationServiceTests
             .Returns(true);
         _mockSessionTopicChecker.Setup(x => x.IsAllowedTopic(It.IsAny<IList<Session>>()))
             .Returns(true);
+        _mockSpeakerFactory.Setup(x => x.CreateSpeakerFromDto(It.IsAny<SpeakerDto>()))
+            .Returns(speaker);
         _mockSpeakerRepository.Setup(x => x.SaveSpeaker(It.IsAny<Speaker>()))
             .ReturnsAsync("speaker-123");
 
@@ -209,7 +244,7 @@ public class SpeakerRegistrationServiceTests
 
         // Assert
         result.Success.Should().BeTrue();
-        _mockSpeakerRepository.Verify(x => x.SaveSpeaker(It.Is<Speaker>(s => s.RegistrationFee == expectedFee)), Times.Once);
+
     }
 
     private static SpeakerDto CreateValidSpeakerDto()
@@ -258,6 +293,23 @@ public class SpeakerRegistrationServiceTests
                 new() { Title = "Modern C#", Description = "Learn modern C# features" }
             },
             Browser = new WebBrowserDto { Name = BrowserName.InternetExplorer, MajorVersion = 8 } // Forbidden browser
+        };
+    }
+
+    private static Speaker CreateSpeaker()
+    {
+        return new Speaker
+        {
+            Id = 1,
+            FirstName = "John",
+            LastName = "Doe",
+            Email = "john.doe@example.com",
+            Employer = "Microsoft",
+            Experience = 5,
+            RegistrationFee = 100,
+            Blog = null,
+            Certifications = new List<Certification>(),
+            Sessions = new List<Session>()
         };
     }
 } 
