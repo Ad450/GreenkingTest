@@ -1,6 +1,6 @@
-using GreenKingRefactoring.Speaker.Data.Enums;
+namespace GreenkingTest.Api.Data.Models;
+using Enums;
 
-namespace GreenKingRefactoring.Speaker.Models;
 
 public class WebBrowser
 {

@@ -1,6 +1,8 @@
-using GreenKingRefactoring.Speaker.DataTransferObjects;
+namespace GreenkingTest.Api.Data.Models;
+using DataTransferObjects;
 
-namespace GreenKingRefactoring.Speaker.Models;
+
+
 
 public class Session
 {

@@ -1,4 +1,4 @@
-namespace GreenKingRefactoring.Speaker.DataTransferObjects;
+namespace GreenkingTest.Api.DataTransferObjects;
 
 public class BlogDto
 {

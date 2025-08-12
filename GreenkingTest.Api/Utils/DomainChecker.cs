@@ -1,4 +1,4 @@
-namespace GreenKingRefactoring.Speaker.Utils;
+namespace GreenkingTest.Api.Utils;
 
 public class DomainChecker : IDomainChecker
 {

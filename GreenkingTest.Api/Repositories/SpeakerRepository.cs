@@ -1,5 +1,7 @@
-namespace GreenKingRefactoring.Speaker.Repositories;
-using Models;
+namespace GreenkingTest.Api.Repositories;
+using Data.Models;
+
+
 
 
 public class SpeakerRepository : ISpeakerRepository 

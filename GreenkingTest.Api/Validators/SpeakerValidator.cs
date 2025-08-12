@@ -1,7 +1,7 @@
-namespace GreenKingRefactoring.Speaker.Validators;
+namespace GreenkingTest.Api.Validators;
+
 using FluentValidation;
 using DataTransferObjects;
-
 
 public class SpeakerValidator : AbstractValidator<SpeakerDto>
 
@@ -16,7 +16,9 @@ public class SpeakerValidator : AbstractValidator<SpeakerDto>
             .NotEmpty().WithMessage("Last name is required.");
 
         RuleFor(x => x.Email)
-            .NotEmpty().WithMessage("Email is required.");
+            .NotEmpty().WithMessage("Email is required.")
+            .Matches(@"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+            .WithMessage("Invalid email format.");
 
         RuleFor(x => x.Experience).NotNull();
     }

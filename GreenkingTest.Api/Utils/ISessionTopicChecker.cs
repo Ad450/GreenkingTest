@@ -1,6 +1,6 @@
-using GreenKingRefactoring.Speaker.Models;
+namespace GreenkingTest.Api.Utils;
+using Data.Models;
 
-namespace GreenKingRefactoring.Speaker.Utils;
 
 public interface ISessionTopicChecker
 {

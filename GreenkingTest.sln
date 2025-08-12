@@ -1,6 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# 
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenkingTest.Api", "GreenkingTest.Api\GreenkingTest.Api.csproj", "{2A4B6894-2993-4327-922E-BB2553B7B6DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenkingTest.Test", "GreenkingTest.Test\GreenkingTest.Test.csproj", "{A05F8CD7-5C16-414D-BAC8-5466991E57F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +15,9 @@ Global
 		{2A4B6894-2993-4327-922E-BB2553B7B6DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A4B6894-2993-4327-922E-BB2553B7B6DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A4B6894-2993-4327-922E-BB2553B7B6DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A05F8CD7-5C16-414D-BAC8-5466991E57F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A05F8CD7-5C16-414D-BAC8-5466991E57F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A05F8CD7-5C16-414D-BAC8-5466991E57F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A05F8CD7-5C16-414D-BAC8-5466991E57F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

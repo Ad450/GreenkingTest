@@ -1,6 +1,6 @@
-using GreenKingRefactoring.Speaker.Models;
+namespace GreenkingTest.Api.Repositories;
 
-namespace GreenKingRefactoring.Speaker.Repositories;
+using GreenkingTest.Api.Data.Models;
 
 public interface ISessionRepository
 {

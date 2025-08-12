@@ -1,5 +1,6 @@
-namespace GreenKingRefactoring.Speaker.Utils;
-using Models;
+namespace GreenkingTest.Api.Utils;
+using Data.Models;
+
 
 
 
@@ -35,7 +36,7 @@ public class SessionTopicChecker  : ISessionTopicChecker
             }
             
         }
-
+        
         return sessions.Any(s => s.IsApproved);
     }
 }

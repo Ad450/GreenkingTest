@@ -1,4 +1,4 @@
-namespace GreenKingRefactoring.Speaker.Models;
+namespace GreenkingTest.Api.Data.Models;
 
 
 public class Speaker

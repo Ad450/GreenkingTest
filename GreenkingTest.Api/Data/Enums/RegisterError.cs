@@ -1,4 +1,4 @@
-namespace GreenKingRefactoring.Speaker.Data.Enums;
+namespace GreenkingTest.Api.Data.Enums;
 
 public enum RegisterError
 {

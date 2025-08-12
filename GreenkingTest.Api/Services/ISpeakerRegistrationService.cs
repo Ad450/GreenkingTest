@@ -1,6 +1,6 @@
-using GreenKingRefactoring.Speaker.DataTransferObjects;
+namespace GreenkingTest.Api.Services;
+using DataTransferObjects;
 
-namespace GreenKingRefactoring.Speaker.Services;
 
 public interface ISpeakerRegistrationService
 {

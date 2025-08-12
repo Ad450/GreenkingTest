@@ -1,11 +1,13 @@
-using GreenKingRefactoring.Speaker.DataTransferObjects;
+namespace GreenkingTest.Api.Data.Models;
+using DataTransferObjects;
 
-namespace GreenKingRefactoring.Speaker.Models;
+
+
 
 public class Blog
 {
-    int Id { get; set; }
-    string Url { get; set; }
+    public int Id { get; set; }
+    public string Url { get; set; }
 
     public static Blog CreateFromDto(BlogDto dto)
     {

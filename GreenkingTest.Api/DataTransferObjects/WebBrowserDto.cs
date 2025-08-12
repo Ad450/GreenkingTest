@@ -1,6 +1,7 @@
-using GreenKingRefactoring.Speaker.Data.Enums;
+namespace GreenkingTest.Api.DataTransferObjects;
 
-namespace GreenKingRefactoring.Speaker.DataTransferObjects;
+using Data.Enums;
+
 
 public class WebBrowserDto
 {
